@@ -125,4 +125,9 @@ RUN useradd -d /cross -m -g $BUILD_GID -u $BUILD_UID -s /bin/bash cross
 RUN chown -R cross:cross /cross
 USER cross
 WORKDIR /cross
+
 RUN DEFCONFIG=/targets/${TARGET}/defconfig ct-ng defconfig
+
+RUN ct-ng source
+
+RUN ct-ng build
