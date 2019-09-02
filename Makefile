@@ -98,7 +98,9 @@ all: build
 
 .PHONY: build
 build:
-	@docker build -t $(TAG):$(TARGET) $(BUILD_ARGS) .
+	@docker build --target crosstool-ng -t $(TAG):crosstool-ng $(BUILD_ARGS) .
+	@docker build --target toolchain -t $(TAG):$(TARGET)-toolchain $(BUILD_ARGS) .
+	@docker build --target distribution -t $(TAG):$(TARGET) $(BUILD_ARGS) .
 
 #
 # Running Rules
@@ -107,6 +109,10 @@ build:
 .PHONY: run
 run:
 	@docker run --rm -i -t $(RUN_ARGS) $(TAG):$(TARGET) bash -il
+
+.PHONY: run-toolchain
+run-toolchain:
+	@docker run --rm -i -t $(RUN_ARGS) $(TAG):$(TARGET)-toolchain bash -il
 
 #
 # Clean Rules

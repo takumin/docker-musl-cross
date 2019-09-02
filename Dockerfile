@@ -127,7 +127,15 @@ USER cross
 WORKDIR /cross
 
 RUN DEFCONFIG=/targets/${TARGET}/defconfig ct-ng defconfig
-
 RUN ct-ng source
-
 RUN ct-ng build
+
+################################################################################
+# Distribution Stage
+################################################################################
+
+FROM debian:stable-slim AS distribution
+ARG TARGET="x86_64-multilib-linux-musl"
+COPY --from=toolchain --chown=0:0 /cross/x-tools/${TARGET} /opt/${TARGET}
+RUN echo "export PATH=/opt/${TARGET}/bin:$PATH" > /etc/profile.d/${TARGET}.sh
+ENV PATH="/opt/${TARGET}/bin:$PATH"
