@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -eu
+
+if [ -z "${DOCKERFILE_PATH}" ]; then
+  DOCKERFILE=""
+else
+  DOCKERFILE="-f ${DOCKERFILE_PATH}"
+fi
+
+if [ -z "${DOCKER_TAG}" ]; then
+  TARGET="x86_64-multilib-linux-musl"
+else
+  TARGET="${DOCKER_TAG}"
+fi
+
+docker build --build-arg TARGET=${TARGET} ${DOCKERFILE} -t ${IMAGE_NAME} .
