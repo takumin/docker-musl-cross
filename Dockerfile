@@ -121,7 +121,7 @@ COPY targets /targets
 COPY .tarballs /cross/src
 
 RUN groupadd -g $BUILD_GID cross
-RUN useradd -d /cross -m -g $BUILD_GID -u $BUILD_UID -s /bin/bash cross
+RUN useradd -d /cross -g $BUILD_GID -u $BUILD_UID -s /bin/bash cross
 RUN chown -R cross:cross /cross
 USER cross
 WORKDIR /cross
