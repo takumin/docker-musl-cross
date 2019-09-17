@@ -61,6 +61,14 @@ RUN tar -xf crosstool-ng-${CTNG_VERSION}.tar.xz -C /usr/src && rm crosstool-ng-$
 
 WORKDIR /usr/src/crosstool-ng-${CTNG_VERSION}
 
+# Workaround: musl 1.23
+RUN mkdir packages/musl/1.1.23
+RUN touch packages/musl/1.1.23/version.desc
+RUN echo "md5 musl-1.1.23.tar.gz 07299585043cd57c1ac1f4411d327ac4" > packages/musl/1.1.23/chksum
+RUN echo "sha1 musl-1.1.23.tar.gz 98f3991d67e0e11dd091eb65890285d8417c7d05" >> packages/musl/1.1.23/chksum
+RUN echo "sha256 musl-1.1.23.tar.gz 8a0feb41cef26c97dde382c014e68b9bb335c094bbc1356f6edaaf6b79bd14aa" >> packages/musl/1.1.23/chksum
+RUN echo "sha512 musl-1.1.23.tar.gz a2278de9903852b08352d3e734a39d4616caa602496997ba843e8fea0e1c481761776745faf04536a149d1c4af416b68df681b6fbc9ae2de8794e18c2e853b09" >> packages/musl/1.1.23/chksum
+
 RUN ./bootstrap
 RUN ./configure --prefix=/opt/crosstool-ng
 RUN make install
