@@ -15,8 +15,8 @@ TARBALLS_DIR ?= $(CURDIR)/.tarballs
 # Common Config
 #
 
-RUN_ARGS ?= --ulimit nofile=4096:8192 -e TARGET=$(TARGET)
-BUILD_ARGS ?= --ulimit nofile=4096:8192 --build-arg TARGET=$(TARGET)
+RUN_ARGS ?= --ulimit nofile=65536 -e TARGET=$(TARGET)
+BUILD_ARGS ?= --ulimit nofile=65536 --build-arg TARGET=$(TARGET)
 
 ifneq (x$(BUILD_UID)x,xx)
 RUN_ARGS += -e BUILD_UID=$(BUILD_UID)
