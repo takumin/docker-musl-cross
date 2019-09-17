@@ -83,11 +83,6 @@ RUN ln -s /opt/crosstool-ng/bin/ct-ng /usr/local/bin/ct-ng
 RUN ln -s /opt/crosstool-ng/share/bash-completion/completions/ct-ng \
       /usr/share/bash-completion/completions/ct-ng
 
-ARG TARGET="x86_64-multilib-linux-musl"
-
-ARG BUILD_UID="1000"
-ARG BUILD_GID="1000"
-
 ARG DEBIAN_MIRROR
 ARG DEBIAN_SECURITY
 
@@ -128,11 +123,16 @@ RUN apt-get update \
 COPY targets /targets
 COPY .tarballs /cross/src
 
+ARG BUILD_UID="1000"
+ARG BUILD_GID="1000"
+
 RUN groupadd -g $BUILD_GID cross
 RUN useradd -d /cross -g $BUILD_GID -u $BUILD_UID -s /bin/bash cross
 RUN chown -R cross:cross /cross
 USER cross
 WORKDIR /cross
+
+ARG TARGET="x86_64-multilib-linux-musl"
 
 RUN DEFCONFIG=/targets/${TARGET}/defconfig ct-ng defconfig
 RUN ct-ng source
